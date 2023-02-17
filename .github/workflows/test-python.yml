@@ -18,16 +18,18 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pylint
-          pip install pytest
       - name: Analysing the code with pylint
         run: |
           pylint --fail-under=5 $(git ls-files '*.py')
       - name: Run the tests with pytest
         run: |
           coverage run -m pytest --profile
-      - name: locust
-          locust -f tests/locusfile.py --config-tests/.locust.conf
+      - name: Report the coverage
+        run: |
+          python -m coverage report
+      - name: Launch the app
+        run: |
+          uvicorn application.main:app
           
           
           
